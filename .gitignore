@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#Authtenticacao Firebase
+Firebase
+**/*Firebase
+**/*Firebase.js
