@@ -1,31 +1,34 @@
 import { useState } from 'react'
 import { useAuth } from '../../Context/authContext'
+import { Link, useNavigate } from 'react-router-dom'
 
 const SignUp = () => {
   const { signUp } = useAuth()
+  const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [loading, setLoading] = useState(false)
 
   async function handleSubmit(e) {
     e.preventDefault()
-    let message = ''
+    setLoading(true)
 
     if (password.length < 6) {
-      message = 'Senha deve ter no minimo 6 caracters'
-      return alert(message)
+      alert('Senha deve ter no minimo 6 caracters')
     }
     if (password !== confirmPassword) {
-      message = 'Senhas não conferem'
-      return alert(message)
+      setLoading(false)
+      return alert('Senhas não conferem')
     }
 
     try {
       await signUp(email, password)
+      navigate('/login')
     } catch (error) {
       alert('Ocorreu um erro ao tentar criar o usuario')
-      console.log(error)
     }
+    setLoading(false)
   }
   return (
     <>
@@ -59,10 +62,17 @@ const SignUp = () => {
             }}
           />
 
-          <button className="button-block" type="submit">
-            Submit
+          <button disabled={loading} className="button-block" type="submit">
+            Cadastrar
           </button>
         </form>
+        <div className="center">
+          <div>
+            <p>
+              Já possui uma conta ? <Link to={'/'}>Login</Link>
+            </p>
+          </div>
+        </div>
       </div>
     </>
   )

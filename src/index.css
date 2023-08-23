@@ -1,4 +1,6 @@
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;   
 
 *,
 *:after,
@@ -15,12 +17,12 @@
   --neutral-link-hover: #952541;
 }
 
-.header {
+/* .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-}
+} */
 .center {
   display: flex;
   justify-content: center;
@@ -34,13 +36,13 @@
   width: 100%;
 }
 
-.container {
+/* .container {
   margin: 0 auto;
   max-width: 112rem;
   padding: 0 2rem;
   position: relative;
   width: 100%;
-}
+} */
 
 .navigation {
   padding-top: 20px;
@@ -81,21 +83,6 @@ body {
   padding-top: 120px;
 }
 
-::selection {
-  background-color: var(--primary-color);
-  color: #fff;
-}
-
-blockquote {
-  border-left: 0.3rem solid #d1d1d1;
-  margin-left: 0;
-  margin-right: 0;
-  padding: 1rem 1.5rem;
-}
-
-blockquote *:last-child {
-  margin-bottom: 0;
-}
 
 .button,
 button,
@@ -596,8 +583,7 @@ figure,
 form,
 ol,
 p,
-pre,
-table,
+pre, table,
 ul {
   margin-bottom: 2.5rem;
 }
@@ -623,13 +609,6 @@ th:first-child {
 td:last-child,
 th:last-child {
   padding-right: 0;
-}
-
-@media (min-width: 40rem) {
-  table {
-    display: table;
-    overflow-x: initial;
-  }
 }
 
 b,
@@ -693,7 +672,7 @@ img {
 .clearfix:after {
   clear: both;
   content: " ";
-  display: table;
+  display: block; 
 }
 
 .float-left {
