@@ -20,7 +20,6 @@ function UserProfile() {
     <Container>
       <header className="flex justify-between items-center w-full">
         <h1>Perfil do usuario</h1>
-
         <button onClick={handleLogout}>Sair</button>
       </header>
 

@@ -11,18 +11,13 @@
 :root {
   --primary-color: #6b61f5;
   --primary-color-dark: #5048b6;
-  --neutral-background: #252A48;
+  --neutral-background: #040220;
   --neutral-text: #fff;
   --neutral-link: #cc3358;
   --neutral-link-hover: #952541;
 }
 
-/* .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-} */
+
 .center {
   display: flex;
   justify-content: center;
@@ -35,14 +30,6 @@
   align-items: center;
   width: 100%;
 }
-
-/* .container {
-  margin: 0 auto;
-  max-width: 112rem;
-  padding: 0 2rem;
-  position: relative;
-  width: 100%;
-} */
 
 .navigation {
   padding-top: 20px;
