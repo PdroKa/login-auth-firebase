@@ -24,7 +24,7 @@ const SignUp = () => {
 
     try {
       await signUp(email, password)
-      navigate('/login')
+      navigate('/')
     } catch (error) {
       alert('Ocorreu um erro ao tentar criar o usuario')
     }

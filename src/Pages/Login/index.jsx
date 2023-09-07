@@ -40,6 +40,7 @@ const Login = () => {
             value={email}
             disabled={loading}
             type="email"
+            className=""
             onChange={(e) => {
               setEmail(e.target.value)
             }}
