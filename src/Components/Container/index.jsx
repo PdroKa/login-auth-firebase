@@ -1,6 +1,6 @@
 export function Container({ children }) {
   return (
-    <div className="mx-auto max-w-[112rem] px-8 relative w-full">
+    <div className="flex min-h-screen justify-center bg-zinc-900 font-sans">
       {children}
     </div>
   )
