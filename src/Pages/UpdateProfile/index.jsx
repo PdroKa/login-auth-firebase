@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../Context/authContext'
 import { Input } from '../../Components/inputText'
 import { Container } from '../../Components/Container'
+import { MdMail } from 'react-icons/md'
 
 function UpdateProfile() {
   const navigate = useNavigate()
@@ -30,26 +31,40 @@ function UpdateProfile() {
   }
 
   return (
-    <Container>
-      <div className="flex justify-between items-center w-full">
-        <h2>Atualizar Perfil</h2>
+    <>
+      <h1 className="text-3xl text-white">Atualizar perfil</h1>
+      <div></div>
+      <div className="my-2 flex items-center text-xl text-white">
+        <div>Email</div>
       </div>
       <form onSubmit={handleSubmit}>
-        <Input
-          label={'Email'}
-          value={email}
-          disabled={loading}
-          onChange={(e) => {
-            setEmail(e.target.value)
-          }}
-          type="email"
-        />
-
-        <button disabled={loading} className="button-block" type="submit">
-          Atualizar Perfil
-        </button>
+        <div className="relative mb-6">
+          <input
+            type="email"
+            value={email}
+            placeholder="Seu E-mail"
+            disabled={loading}
+            onChange={(e) => {
+              setEmail(e.target.value)
+            }}
+            className="peer w-full rounded-md bg-slate-600 px-6 py-3 indent-2 text-white placeholder-neutral-500 transition-all focus:border-indigo-500 focus:outline-none focus:ring focus:ring-indigo-500"
+          />
+          <MdMail className="absolute left-2 top-[14px]  text-xl text-zinc-500 peer-focus:text-indigo-500" />
+          <p className="invisible mt-1 text-sm text-pink-600 peer-invalid:visible">
+            Endereço de email invalido
+          </p>
+        </div>
+        <div>
+          <button
+            disabled={loading}
+            className="w-full rounded-md bg-indigo-500 pb-3 pt-2 text-white outline-none transition-all duration-500 hover:bg-indigo-600 focus:bg-indigo-600 focus:outline-none"
+            type="submit"
+          >
+            Atualizar Perfil
+          </button>
+        </div>
       </form>
-    </Container>
+    </>
   )
 }
 

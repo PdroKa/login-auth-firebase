@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import Login from '../Pages/Login'
 import SignUp from '../Pages/SignUp'
 import ForgotPassword from '../Pages/ForgotPassword'
+import PageError from '../Pages/Error404'
 
 function AuthRoutes() {
   return (
@@ -9,7 +10,7 @@ function AuthRoutes() {
       <Route path="/forgot-password" exact element={<ForgotPassword />} />
       <Route path="/signup" exact element={<SignUp />} />
       <Route path="/" element={<Login />} />
-      <Route path="*" element={<Navigate to={'/'} replace />} />
+      <Route path="*" element={<PageError />} />
     </Routes>
   )
 }
