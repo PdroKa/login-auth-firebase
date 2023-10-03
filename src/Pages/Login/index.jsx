@@ -1,23 +1,49 @@
-import { useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
+import { LuEye, LuEyeOff, LuLoader2 } from 'react-icons/lu'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../Context/authContext'
 import { Input } from '../../Components/inputText'
 
 import { Container } from '../../Components/Container'
-import { MdLock, MdMail, MdPassword } from 'react-icons/md'
+import { MdLock, MdMail } from 'react-icons/md'
 
 const Login = () => {
   const navigate = useNavigate()
+
   const { signIn } = useAuth()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+
+  const passwordRef = useRef()
+  const emailRef = useRef()
+
+  const svgsOfTypePassword = {
+    text: (
+      <LuEye className="absolute right-2 top-4 text-sm text-indigo-500 md:top-[14px] md:text-xl" />
+    ),
+    password: (
+      <LuEyeOff className="absolute right-2 top-4 text-sm text-indigo-300 md:top-[14px] md:text-xl" />
+    ),
+  }
+  const [svgEyePassword, setSvgEyePassword] = useState(svgsOfTypePassword.text)
+  const viewPassword = (e) => {
+    e.preventDefault()
+
+    if (passwordRef.current.type === 'password') {
+      setSvgEyePassword(svgsOfTypePassword.password)
+      return passwordRef.current.setAttribute('type', 'text')
+    }
+    setSvgEyePassword(svgsOfTypePassword.text)
+    return passwordRef.current.setAttribute('type', 'password')
+  }
 
   async function handleSubmit(e) {
     e.preventDefault()
     setLoading(true)
 
-    if (password.length < 6) {
+    const { value: password } = passwordRef.current
+    const { value: email } = emailRef.current
+
+    if (password < 6) {
       alert('Senha deve ter no minimo 6 caracters')
       setLoading(false)
       return
@@ -35,10 +61,14 @@ const Login = () => {
   return (
     <>
       <Container>
-        <div className="container my-auto max-w-md rounded-lg border-neutral-800 bg-zinc-800 p-3 shadow-sm">
-          <header className=" my-6 text-center">
-            <h1 className="text-3xl font-semibold text-gray-200">Login</h1>
-            <p className="text-gray-500">Faça login para acessar sua conta</p>
+        <div className="w-full max-w-[360px] rounded-lg border-slate-800 bg-slate-800 p-3 shadow-sm md:max-w-md">
+          <header className="my-6 text-center">
+            <h1 className="text-2xl font-semibold text-gray-200 md:text-3xl">
+              Login
+            </h1>
+            <p className="text-sm text-gray-500 md:text-base ">
+              Faça login para acessar sua conta
+            </p>
           </header>
 
           <div className="m-6">
@@ -47,17 +77,13 @@ const Login = () => {
                 <input
                   type="email"
                   name="email"
-                  id="email"
-                  value={email}
+                  ref={emailRef}
                   disabled={loading}
-                  onChange={(e) => {
-                    setEmail(e.target.value)
-                  }}
                   placeholder="Seu E-mail"
-                  className="peer w-full rounded-md bg-zinc-900 px-6 py-3 indent-2 text-white placeholder-neutral-500 transition-all focus:border-indigo-500 focus:outline-none focus:ring focus:ring-indigo-500"
+                  className="peer w-full rounded-md bg-slate-900 px-6 py-3 indent-2 text-sm text-white placeholder-neutral-500 transition-all focus:border-indigo-500 focus:outline-none focus:ring focus:ring-indigo-500 md:text-base"
                 />
-                <MdMail className="absolute left-2 top-[14px]  text-xl text-zinc-500 peer-focus:text-indigo-500" />
-                <p className="mt-2 hidden text-sm text-pink-600 peer-invalid:block">
+                <MdMail className="absolute left-2 top-4 text-sm text-slate-500 peer-focus:text-indigo-500 md:top-[14px] md:text-xl" />
+                <p className="mt-2 hidden text-xs text-pink-600 peer-invalid:block md:text-sm">
                   Endereço de email invalido
                 </p>
               </div>
@@ -66,42 +92,48 @@ const Login = () => {
                 <input
                   type="password"
                   name="password"
-                  id="password"
-                  value={password}
+                  ref={passwordRef}
                   disabled={loading}
-                  onChange={(e) => {
-                    setPassword(e.target.value)
-                  }}
                   placeholder="Sua senha"
-                  className="peer w-full rounded-md bg-zinc-900 px-6 py-3 indent-2 text-white placeholder-neutral-500 transition-all focus:border-indigo-500 focus:outline-none focus:ring focus:ring-indigo-500"
+                  className="peer w-full rounded-md bg-slate-900 px-6 py-3 indent-2 text-sm text-white placeholder-neutral-500 transition-all focus:border-indigo-500 focus:outline-none focus:ring focus:ring-indigo-500 md:text-base"
                 />
-                <MdLock className="absolute left-2 top-[14px] text-xl text-zinc-500 peer-focus:text-indigo-500" />
+                <MdLock className="absolute left-2 top-4 text-sm text-slate-500 peer-focus:text-indigo-500 md:top-[14px] md:text-xl" />
+                <button type="button" onClick={(e) => viewPassword(e)}>
+                  {svgEyePassword}
+                </button>
               </div>
               <div className="mb-6">
                 <button
                   disabled={loading}
-                  type="button"
-                  className="w-full rounded-md bg-indigo-500 pb-3 pt-2 text-white transition-all duration-500 hover:bg-indigo-600 focus:bg-indigo-600 focus:outline-none"
+                  type="submit"
+                  className="mx-auto flex w-full flex-row items-center justify-center rounded-md bg-indigo-500 pb-3 pt-2 text-base text-white outline-none transition-all duration-500 hover:bg-indigo-600 focus:bg-indigo-600 focus:outline-none md:text-lg"
                 >
-                  {loading ? 'Carregando...' : 'Entrar'}
+                  {loading ? (
+                    <>
+                      <span>Carregando</span>
+                      <LuLoader2 className="my-auto ml-1 animate-spin" />
+                    </>
+                  ) : (
+                    'Entrar'
+                  )}
                 </button>
               </div>
 
               <footer className="flex flex-col gap-3">
-                <p className="text-center text-sm text-gray-500">
+                <p className="text-center text-xs text-gray-500 md:text-base">
                   Esqueceu a senha ?
                   <Link
-                    className="ml-1 font-semibold text-indigo-500 hover:text-indigo-600 hover:underline focus:text-indigo-600 focus:underline"
+                    className="ml-1 font-semibold text-indigo-500 outline-none hover:text-indigo-600 hover:underline focus:text-indigo-600 focus:underline"
                     to={'/forgot-password'}
                   >
                     Resetar senha
                   </Link>
                 </p>
 
-                <p className="text-center text-sm text-gray-500">
+                <p className="text-center text-xs font-bold text-gray-500 md:text-base">
                   Criar nova conta ?
                   <Link
-                    className="ml-1 font-semibold text-indigo-500 hover:text-indigo-600 hover:underline focus:text-indigo-600  focus:underline"
+                    className="ml-1 font-semibold text-indigo-500 outline-none hover:text-indigo-600 hover:underline focus:text-indigo-600  focus:underline"
                     to={'/signup'}
                   >
                     Cadastrar
