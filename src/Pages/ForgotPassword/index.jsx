@@ -1,8 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { Container } from '../../Components/Container'
 import { useState } from 'react'
 import { useAuth } from '../../Context/authContext'
 import { MdMail } from 'react-icons/md'
+import { toast } from 'react-toastify'
 
 function ForgotPassword() {
   const { resetPassword } = useAuth()
@@ -14,16 +14,18 @@ function ForgotPassword() {
     e.preventDefault()
     setLoading(true)
     try {
-      await resetPassword(email)
-      alert('Foi enviado um email para resetar sua senha')
-      navigate('/login')
+      await toast.promise(resetPassword(email), {
+        pending: 'Carregando...',
+        success: `Foi enviado um email a ${email} para resetar sua senha`,
+        error: 'Ocorreu um erro ao resetar sua senha',
+      })
+      navigate('/')
     } catch (error) {
-      alert('Ocorreu um erro ao resetar sua senha')
+      setLoading(false)
     }
-    setLoading(false)
   }
   return (
-    <Container>
+    <div className="flex h-full max-h-screen items-center justify-center bg-slate-900 font-sans">
       <div className="transparent container my-auto max-w-md rounded-lg border-neutral-800 p-3 shadow-sm">
         <header className="my-6 text-center">
           <h1 className="text-3xl text-gray-200">Recuperar senha</h1>
@@ -34,7 +36,7 @@ function ForgotPassword() {
               <input
                 type="email"
                 placeholder="Seu E-mail"
-                className="focus:ring-indigp-500 peer w-full rounded-md border border-neutral-500 bg-zinc-900 px-6 py-3 indent-2 text-white placeholder-neutral-500 transition-all focus:border-indigo-500 focus:outline-none focus:ring focus:ring-indigo-500"
+                className="peer w-full rounded-md border border-neutral-500 bg-slate-900 px-6 py-3 indent-2 text-white placeholder-neutral-500 transition-all focus:border-indigo-500 focus:outline-none focus:ring focus:ring-indigo-500"
                 value={email}
                 onChange={(e) => {
                   setEmail(e.target.value)
@@ -82,7 +84,7 @@ function ForgotPassword() {
           </form>
         </div>
       </div>
-    </Container>
+    </div>
   )
 }
 export default ForgotPassword

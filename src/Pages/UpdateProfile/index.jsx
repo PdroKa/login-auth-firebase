@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../Context/authContext'
 import { Input } from '../../Components/inputText'
-import { Container } from '../../Components/Container'
 import { MdMail } from 'react-icons/md'
+import { toast } from 'react-toastify'
 
 function UpdateProfile() {
   const navigate = useNavigate()
@@ -22,10 +22,13 @@ function UpdateProfile() {
     }
 
     try {
-      await updateEmailAdress(email)
+      await toast.promise(updateEmailAdress(email), {
+        pending: 'Carregando...',
+        success: `Email atualizado para ${email}`,
+        error: 'Ocorreu um erro ao tentar atualizar Email',
+      })
       navigate('/')
     } catch (error) {
-      alert('Ocorreu um erro ao tentar atualizar Email')
       setLoading(false)
     }
   }

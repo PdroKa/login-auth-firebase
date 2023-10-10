@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 function Sidebar() {
   const [buttonSelected, setbuttonSelected] = useState('')
   const [sidebarOpen, setSidebarOpen] = useState(false)
-
   const colors = {
     colorFocus:
       'group w-full flex items-center bg-indigo-500 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-300 transition-all duration-200 hover:bg-indigo-500 hover:text-white',

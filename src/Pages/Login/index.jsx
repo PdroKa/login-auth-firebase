@@ -1,11 +1,12 @@
-import { useCallback, useMemo, useRef, useState } from 'react'
-import { LuEye, LuEyeOff, LuLoader2 } from 'react-icons/lu'
-import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../../Context/authContext'
-import { Input } from '../../Components/inputText'
-
-import { Container } from '../../Components/Container'
+import { useRef, useState } from 'react'
+import { LuLoader2 } from 'react-icons/lu'
 import { MdLock, MdMail } from 'react-icons/md'
+
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { useAuth } from '../../Context/authContext'
+import { EyeOffIcon } from '../../assets/SVGs/EyeOff'
+import { EyeIcon } from '../../assets/SVGs/Eye'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -16,24 +17,21 @@ const Login = () => {
   const passwordRef = useRef()
   const emailRef = useRef()
 
-  const svgsOfTypePassword = {
-    text: (
-      <LuEye className="absolute right-2 top-4 text-sm text-indigo-500 md:top-[14px] md:text-xl" />
-    ),
-    password: (
-      <LuEyeOff className="absolute right-2 top-4 text-sm text-indigo-300 md:top-[14px] md:text-xl" />
-    ),
+  const iconsViewPassword = {
+    text: <EyeIcon />,
+    password: <EyeOffIcon />,
   }
-  const [svgEyePassword, setSvgEyePassword] = useState(svgsOfTypePassword.text)
+  const [icoViewPassword, setIcoViewPassword] = useState(iconsViewPassword.text)
   const viewPassword = (e) => {
     e.preventDefault()
 
-    if (passwordRef.current.type === 'password') {
-      setSvgEyePassword(svgsOfTypePassword.password)
-      return passwordRef.current.setAttribute('type', 'text')
-    }
-    setSvgEyePassword(svgsOfTypePassword.text)
-    return passwordRef.current.setAttribute('type', 'password')
+    setTimeout(function () {
+      setIcoViewPassword(iconsViewPassword.text)
+      return passwordRef.current.setAttribute('type', 'password')
+    }, 2000)
+
+    setIcoViewPassword(iconsViewPassword.password)
+    passwordRef.current.setAttribute('type', 'text')
   }
 
   async function handleSubmit(e) {
@@ -44,23 +42,29 @@ const Login = () => {
     const { value: email } = emailRef.current
 
     if (password < 6) {
-      alert('Senha deve ter no minimo 6 caracters')
-      setLoading(false)
-      return
+      toast.warning('Senha deve ter no minimo 6 caracters')
+      return setLoading(false)
+    }
+    if (email === '') {
+      toast.warning('E-mail pode estar invalido')
+      return setLoading(false)
     }
 
     try {
-      await signIn(email, password)
+      await toast.promise(signIn(email, password), {
+        pending: 'Carregando...',
+        success: `Bem-vindo ${email}`,
+        error: 'E-mail ou senha invalidos',
+      })
       navigate('/')
     } catch (error) {
-      alert('Ocorreu um erro ao tentar efetuar o login')
       setLoading(false)
     }
   }
 
   return (
     <>
-      <Container>
+      <div className="flex h-full max-h-screen items-center justify-center bg-slate-900 font-sans">
         <div className="w-full max-w-[360px] rounded-lg border-slate-800 bg-slate-800 p-3 shadow-sm md:max-w-md">
           <header className="my-6 text-center">
             <h1 className="text-2xl font-semibold text-gray-200 md:text-3xl">
@@ -99,7 +103,7 @@ const Login = () => {
                 />
                 <MdLock className="absolute left-2 top-4 text-sm text-slate-500 peer-focus:text-indigo-500 md:top-[14px] md:text-xl" />
                 <button type="button" onClick={(e) => viewPassword(e)}>
-                  {svgEyePassword}
+                  {icoViewPassword}
                 </button>
               </div>
               <div className="mb-6">
@@ -148,7 +152,7 @@ const Login = () => {
             </form>
           </div>
         </div>
-      </Container>
+      </div>
     </>
   )
 }

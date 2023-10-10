@@ -1,10 +1,10 @@
-import { useMemo, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useAuth } from '../../Context/authContext'
 import { Link, useNavigate } from 'react-router-dom'
-import { Container } from '../../Components/Container'
 
 import { MdLock, MdMail } from 'react-icons/md'
 import { LuLoader2 } from 'react-icons/lu'
+import { toast } from 'react-toastify'
 
 const SignUp = () => {
   const { signUp } = useAuth()
@@ -15,10 +15,6 @@ const SignUp = () => {
   const emailRef = useRef()
   const passwordRef = useRef()
   const confirmPasswordRef = useRef()
-  // const viewPassword = useMemo(
-  //   () => console.log(passwordRef.current.setAttribute('type', 'text')),
-  //   [],
-  // )
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -36,23 +32,25 @@ const SignUp = () => {
     }
 
     try {
-      await signUp(email, password)
+      await toast.promise(signUp(email, password), {
+        pending: 'Carregando...',
+        success: `Bem-vindo ${email}`,
+        error: 'Ocorreu um erro ao tentar criar o usuario',
+      })
       navigate('/')
     } catch (error) {
-      alert('Ocorreu um erro ao tentar criar o usuario')
       setLoading(false)
     }
-    setLoading(false)
   }
   return (
     <>
-      <Container>
+      <div className="flex h-full max-h-screen items-center justify-center bg-slate-900 font-sans">
         <div className="w-full max-w-[360px] rounded-lg border-slate-800 bg-slate-800 p-3 shadow-sm md:max-w-md">
           <header className="my-6 text-center">
             <h1 className="text-2xl font-semibold text-gray-200 md:text-3xl">
               Cadastro de usuario
             </h1>
-            <p className="text-sm text-gray-500 md:text-base">
+            <p className="text-sm text-slate-500 md:text-base">
               Faça seu cadastro para acessar
             </p>
           </header>
@@ -124,7 +122,7 @@ const SignUp = () => {
             </form>
           </div>
         </div>
-      </Container>
+      </div>
     </>
   )
 }
