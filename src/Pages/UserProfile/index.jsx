@@ -1,23 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../../Context/authContext'
-import { Container } from '../../Components/Container'
-import Layout from '../../Components/Layout'
-import { useMemo } from 'react'
+import { toast } from 'react-toastify'
 
 function UserProfile() {
-  const { currentUser, logOut } = useAuth()
-  // const navigate = useNavigate()
+  const { currentUser } = useAuth()
 
-  const pageData = { title: 'Atualizar Perfil', lineColor: 'bg-indigo-500' }
-  // async function handleLogout() {
-  //   try {
-  //     await logOut()
-  //     navigate('/')
-  //   } catch (error) {
-  //     alert('Ocorreu um erro ao tentar efetuar o logout')
-  //     console.log(error)
-  //   }
-  // }
   return (
     <>
       <h1 className="text-3xl text-white">Home</h1>
