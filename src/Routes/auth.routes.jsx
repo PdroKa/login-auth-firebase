@@ -10,7 +10,7 @@ function AuthRoutes() {
       <Route path="/forgot-password" exact element={<ForgotPassword />} />
       <Route path="/signup" exact element={<SignUp />} />
       <Route path="/" element={<Login />} />
-      <Route path="*" element={<PageError />} />
+      <Route path="*" element={<Navigate to={'/'} replace />} />
     </Routes>
   )
 }

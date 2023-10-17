@@ -1,10 +1,11 @@
 import { useRef, useState } from 'react'
-import { useAuth } from '../../Context/authContext'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../Context/authContext'
 
-import { MdLock, MdMail } from 'react-icons/md'
 import { LuLoader2 } from 'react-icons/lu'
+import { MdLock, MdMail } from 'react-icons/md'
 import { toast } from 'react-toastify'
+import { Button } from '../../Components/Button'
 
 const SignUp = () => {
   const { signUp } = useAuth()
@@ -24,11 +25,12 @@ const SignUp = () => {
     const { value: confirmPassword } = confirmPasswordRef.current
 
     if (password.length < 6) {
-      alert('Senha deve ter no minimo 6 caracters')
+      toast.warning('Senha deve ter no minimo 6 caracters')
+      return setLoading(false)
     }
     if (password !== confirmPassword) {
-      setLoading(false)
-      return alert('Senhas não conferem')
+      toast.warning('Senhas não conferem')
+      return setLoading(false)
     }
 
     try {
@@ -92,20 +94,10 @@ const SignUp = () => {
               </div>
 
               <div className="mb-6">
-                <button
-                  disabled={loading}
-                  type="submit"
-                  className="mx-auto flex w-full flex-row items-center justify-center rounded-md bg-indigo-500 pb-3 pt-2 text-base text-white outline-none transition-all duration-500 hover:bg-indigo-600 focus:bg-indigo-600 focus:outline-none md:text-lg"
-                >
-                  {loading ? (
-                    <>
-                      <span>Carregando</span>
-                      <LuLoader2 className="my-auto ml-1 animate-spin" />
-                    </>
-                  ) : (
-                    'Cadastrar'
-                  )}
-                </button>
+                <Button.Root bg={'primary'} size={'full'} loading={loading}>
+                  <Button.Content>Entrar</Button.Content>
+                  {loading && <Button.Icon size={'xl'} Icon={LuLoader2} />}
+                </Button.Root>
               </div>
 
               <footer className="flex flex-col gap-3">

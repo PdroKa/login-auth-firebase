@@ -8,6 +8,6 @@ import './index.css'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <App />
-    <ContainerMessage />
+    <ContainerMessage limit={3} />
   </React.StrictMode>,
 )

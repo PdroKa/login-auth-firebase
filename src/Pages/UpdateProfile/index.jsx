@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../Context/authContext'
-import { Input } from '../../Components/inputText'
 import { MdMail } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { useAuth } from '../../Context/authContext'
+import { Button } from '../../Components/Button'
+import { LuLoader2 } from 'react-icons/lu'
 
 function UpdateProfile() {
   const navigate = useNavigate()
@@ -41,7 +42,7 @@ function UpdateProfile() {
         <div>Email</div>
       </div>
       <form onSubmit={handleSubmit}>
-        <div className="relative mb-6">
+        <div className="relative mb-1">
           <input
             type="email"
             value={email}
@@ -50,21 +51,20 @@ function UpdateProfile() {
             onChange={(e) => {
               setEmail(e.target.value)
             }}
-            className="peer w-full rounded-md bg-slate-600 px-6 py-3 indent-2 text-white placeholder-neutral-500 transition-all focus:border-indigo-500 focus:outline-none focus:ring focus:ring-indigo-500"
+            className="peer w-full rounded-md bg-slate-700 px-6 py-3 indent-2 text-zinc-400 placeholder-neutral-500 transition-all focus:border-indigo-600 focus:text-zinc-100 focus:outline-none focus:ring focus:ring-indigo-600"
           />
-          <MdMail className="absolute left-2 top-[14px]  text-xl text-zinc-500 peer-focus:text-indigo-500" />
+          <MdMail className="absolute left-2 top-[14px] text-xl text-zinc-500 peer-focus:text-zinc-300" />
           <p className="invisible mt-1 text-sm text-pink-600 peer-invalid:visible">
             Endereço de email invalido
           </p>
         </div>
         <div>
-          <button
-            disabled={loading}
-            className="w-full rounded-md bg-indigo-500 pb-3 pt-2 text-white outline-none transition-all duration-500 hover:bg-indigo-600 focus:bg-indigo-600 focus:outline-none"
-            type="submit"
-          >
-            Atualizar Perfil
-          </button>
+          <Button.Root type="submit" bg={'primary'} loading={loading}>
+            <Button.Content dataLoading="Atulizando E-mail" loading={loading}>
+              Atualizar Perfil
+            </Button.Content>
+            {loading && <Button.Icon animate={'spin'} Icon={LuLoader2} />}
+          </Button.Root>
         </div>
       </form>
     </>
