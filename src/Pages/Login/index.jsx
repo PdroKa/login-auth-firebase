@@ -1,12 +1,13 @@
 import { useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../Context/authContext'
+
 import { LuLoader2 } from 'react-icons/lu'
 import { MdLock, MdMail } from 'react-icons/md'
-
-import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { useAuth } from '../../Context/authContext'
-import { EyeOffIcon } from '../../assets/SVGs/EyeOff'
 import { EyeIcon } from '../../assets/SVGs/Eye'
+import { EyeOffIcon } from '../../assets/SVGs/EyeOff'
+import { Button } from '../../Components/Button'
 
 const Login = () => {
   const navigate = useNavigate()
@@ -41,12 +42,13 @@ const Login = () => {
     const { value: password } = passwordRef.current
     const { value: email } = emailRef.current
 
-    if (password < 6) {
-      toast.warning('Senha deve ter no minimo 6 caracters')
-      return setLoading(false)
-    }
     if (email === '') {
       toast.warning('E-mail pode estar invalido')
+      return setLoading(false)
+    }
+
+    if (password < 6) {
+      toast.warning('Senha deve ter no minimo 6 caracters')
       return setLoading(false)
     }
 
@@ -107,24 +109,16 @@ const Login = () => {
                 </button>
               </div>
               <div className="mb-6">
-                <button
-                  disabled={loading}
-                  type="submit"
-                  className="mx-auto flex w-full flex-row items-center justify-center rounded-md bg-indigo-500 pb-3 pt-2 text-base text-white outline-none transition-all duration-500 hover:bg-indigo-600 focus:bg-indigo-600 focus:outline-none md:text-lg"
-                >
-                  {loading ? (
-                    <>
-                      <span>Carregando</span>
-                      <LuLoader2 className="my-auto ml-1 animate-spin" />
-                    </>
-                  ) : (
-                    'Entrar'
-                  )}
-                </button>
+                <Button.Root bg={'primary'} loading={loading}>
+                  <Button.Content dataLoading="Carregando" loading={loading}>
+                    Entrar
+                  </Button.Content>
+                  {loading && <Button.Icon animate={'spin'} Icon={LuLoader2} />}
+                </Button.Root>
               </div>
 
               <footer className="flex flex-col gap-3">
-                <p className="text-center text-xs text-gray-500 md:text-base">
+                <p className="text-xs text-gray-500 md:text-base">
                   Esqueceu a senha ?
                   <Link
                     className="ml-1 font-semibold text-indigo-500 outline-none hover:text-indigo-600 hover:underline focus:text-indigo-600 focus:underline"
@@ -134,7 +128,7 @@ const Login = () => {
                   </Link>
                 </p>
 
-                <p className="text-center text-xs font-bold text-gray-500 md:text-base">
+                <p className="text-xs font-semibold text-gray-500 md:text-base">
                   Criar nova conta ?
                   <Link
                     className="ml-1 font-semibold text-indigo-500 outline-none hover:text-indigo-600 hover:underline focus:text-indigo-600  focus:underline"

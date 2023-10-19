@@ -1,8 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import { useAuth } from '../../Context/authContext'
 import { MdMail } from 'react-icons/md'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { useAuth } from '../../Context/authContext'
+import { Button } from '../../Components/Button'
+import { LuLoader2 } from 'react-icons/lu'
 
 function ForgotPassword() {
   const { resetPassword } = useAuth()
@@ -17,7 +19,7 @@ function ForgotPassword() {
       await toast.promise(resetPassword(email), {
         pending: 'Carregando...',
         success: `Foi enviado um email a ${email} para resetar sua senha`,
-        error: 'Ocorreu um erro ao resetar sua senha',
+        error: 'Ocorreu um erro ao Enviar E-mail',
       })
       navigate('/')
     } catch (error) {
@@ -49,13 +51,12 @@ function ForgotPassword() {
               </p>
             </div>
             <div className="mb-6">
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full rounded-md bg-indigo-500 pb-3 pt-2 text-white outline-none transition-all duration-300 hover:bg-indigo-600 focus:bg-indigo-600"
-              >
-                Recuperar senha
-              </button>
+              <Button.Root bg={'primary'} loading={loading}>
+                <Button.Content dataLoading="Enviando Email" loading={loading}>
+                  Recuperar senha
+                </Button.Content>
+                {loading && <Button.Icon animate={'spin'} Icon={LuLoader2} />}
+              </Button.Root>
             </div>
             <footer className="flex flex-col gap-3">
               <p className="text-center text-sm text-gray-500">

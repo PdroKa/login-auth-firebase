@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { Button } from '../../Components/Button'
 
 function PageError() {
   const navigate = useNavigate()
@@ -13,13 +14,12 @@ function PageError() {
           <span className="ml-2 w-0 animate-ping after:text-sm after:text-white after:content-['|']" />
         </div>
       </div>
-      <button
-        type="button"
-        onClick={() => navigate('/')}
-        className="w-full max-w-lg rounded-md bg-indigo-500 pb-3 pt-2 text-white outline-none transition-all duration-500 hover:bg-indigo-600 focus:bg-indigo-600 focus:outline-none"
-      >
-        Retornar a pagina Home
-      </button>
+      <button type="button"></button>
+      <Button.Root onClick={() => navigate('/')} bg={'primary'}>
+        <Button.Content dataLoading="Carregando">
+          Retornar a pagina Home
+        </Button.Content>
+      </Button.Root>
     </div>
   )
 }

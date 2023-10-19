@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../Context/authContext'
-import { toast } from 'react-toastify'
+import { useState } from 'react'
 
 function UserProfile() {
   const { currentUser } = useAuth()
-
   return (
     <>
       <h1 className="text-3xl text-white">Home</h1>
